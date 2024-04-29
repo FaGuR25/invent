@@ -1,25 +1,21 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import {Producto} from '../models/producto';
 import {FlatList} from 'react-native-gesture-handler';
-import {ListItem} from '@react-native-material/core';
+import {HomeProps as producProos} from './Producto';
 
 type RootStackParamList = {
   Home: undefined;
+  Produc: producProos;
 };
-type HomeScreenProps = StackNavigationProp<RootStackParamList, 'Home'>;
+// type HomeScreenProps = StackNavigationProp<RootStackParamList, 'Home'>;
+type ProducScreenProps = StackNavigationProp<RootStackParamList, 'Produc'>;
 type HomeScreenRoute = RouteProp<RootStackParamList, 'Home'>;
 
 type HomeProps = {
-  navigation: HomeScreenProps;
+  navigation: ProducScreenProps;
   route: HomeScreenRoute;
 };
 
@@ -27,17 +23,14 @@ function Home({navigation}: HomeProps): React.JSX.Element {
   const [product, setProduct] = useState<Producto[]>([]);
 
   const producItem = ({item}: {item: Producto}) => (
-    <ListItem
-      title={item.nombre}
-      secondaryText=''
-      // leading={<Icon name="email-open" size={24} />}
-      // trailing={props => <Icon name="chevron-right" {...props} />}
-    />
-
-    /* <TouchableOpacity style={style.producItem}>
+    <TouchableOpacity
+      style={style.producItem}
+      onPress={() => {
+        navigation.navigate('Produc', {producto: item});
+      }}>
       <Text style={style.itemTitle}> {item.nombre}</Text>
       <Text style={style.itemDetails}>Precio: {item.precio.toFixed(2)}</Text>
-    </TouchableOpacity> */
+    </TouchableOpacity>
   );
 
   useEffect(() => {
